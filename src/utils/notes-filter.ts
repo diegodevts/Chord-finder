@@ -1,4 +1,6 @@
-import { readFileSync, rm } from "fs"
+import { readFileSync } from "fs"
+import { unlink } from "fs/promises"
+import { Notes } from "../types"
 
 export class NotesFilter {
     async handle() {
@@ -8,7 +10,7 @@ export class NotesFilter {
 
         notes.pop()
 
-        const notesParsed = notes
+        const notesParsed: Notes[] = notes
             .map((each) => {
                 return JSON.parse(each)
             })
@@ -18,18 +20,14 @@ export class NotesFilter {
                     note: each.name.toString() as string
                 }
             })
-        const notesFiltered = []
+        const notesFiltered: Notes[] = []
         const filter = new Set([...notesParsed.map(({ index }) => index)])
 
         filter.forEach((number) => {
             notesFiltered.push(notesParsed.find(({ index }) => index == number))
         })
 
-        rm(
-            "C:\\Users\\Diego\\Desktop\\Chordometry\\notesTemp.json",
-            { recursive: true },
-            (err) => console.error(err)
-        )
+        await unlink("./notesTemp.json")
 
         return notesFiltered
     }

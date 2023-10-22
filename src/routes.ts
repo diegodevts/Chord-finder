@@ -1,8 +1,8 @@
 import { Router } from "express"
-import chordSolver from "./chord-solver/routes"
+import chordSolver from "./routes/chord-finder.routes"
 
 const routes = Router()
 
-routes.use("/chord", chordSolver)
+routes.use("/", chordSolver)
 
 export default routes

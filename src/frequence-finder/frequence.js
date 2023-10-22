@@ -35,9 +35,9 @@ window.onload = (async () => {
     try {
         const audioStream = await navigator.mediaDevices.getUserMedia({
             audio: {
-                googEchoCancellation: false,
+                googEchoCancellation: true,
                 googAutoGainControl: false,
-                googNoiseSuppression: false,
+                googNoiseSuppression: true,
                 googHighpassFilter: false
             }
         })
@@ -47,8 +47,8 @@ window.onload = (async () => {
         const analyser = audioContext.createAnalyser()
         analyser.fftSize = 4096
         analyser.minDecibels = -127
-        analyser.maxDecibels = 0
-        analyser.smoothingTimeConstant = 0.4
+        analyser.maxDecibels = -30
+        analyser.smoothingTimeConstant = 1
         audioSource.connect(analyser)
         var FFT = new Float32Array(analyser.frequencyBinCount)
 
@@ -133,7 +133,7 @@ window.onload = (async () => {
         volumeCallback = async () => {
             analyser.getFloatTimeDomainData(FFT)
             var ac = autoCorrelate(FFT, audioContext.sampleRate)
-
+            console.log(analyser)
             if (ac <= -1) {
                 document.getElementById("Hertz").innerHTML =
                     "<h1>" + "--" + "</h1>"
