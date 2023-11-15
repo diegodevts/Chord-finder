@@ -1,7 +1,7 @@
-import { ChordType } from "../utils/chord-type"
-import { NotesFilter } from "../utils/notes-filter"
-import { ChordSolver } from "../utils/solve-chord"
-import { ChordFinder } from "../services/chord-finder"
+import { ChordType } from "../../utils/chord-type"
+import { NotesFilter } from "../../utils/notes-filter"
+import { ChordSolver } from "../../utils/solve-chord"
+import { ChordFinder } from "../../services/chord-finder"
 import { ChordFinderController } from "./chord-finder"
 
 const notesFilter = new NotesFilter()

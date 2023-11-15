@@ -3,14 +3,13 @@ import { createWriteStream } from "fs"
 import { Writable, Transform, Readable, pipeline } from "stream"
 import { promisify } from "util"
 import { NotesFilter } from "../utils/notes-filter"
-import { ChordSolver } from "../utils/solve-chord"
-import { ChordType } from "../utils/chord-type"
 import { Notes } from "../types"
+import { ScaleSolver } from "../utils/solve-scale"
 
-export class ChordFinder {
+export class ScaleFinder {
     constructor(
         private notesFilter: NotesFilter,
-        private chordSolver: ChordSolver
+        private scaleSolver: ScaleSolver
     ) {}
 
     async handle(notes: any) {
@@ -56,10 +55,12 @@ export class ChordFinder {
         }
 
         if (index === "fim") {
-            const notesFromDB = (await this.notesFilter.handle()) as Notes[]
+            const { notesFiltered, mostRepeateds } =
+                await this.notesFilter.handle()
 
-            const getChord = await this.chordSolver.handle(
-                notesFromDB.map(({ note }) => note)
+            const getChord = await this.scaleSolver.handle(
+                notesFiltered.map(({ note }) => note),
+                mostRepeateds
             )
 
             return getChord

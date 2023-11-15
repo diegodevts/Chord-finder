@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express"
-import { chordFinderController } from "../controllers"
+import { chordFinderController } from "../controllers/chord/index"
 
 const endpoint = Router()
 
